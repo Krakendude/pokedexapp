@@ -64,6 +64,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun loadData(){
-        Toast.makeText(this, "{${pokemonDetail.name}}", Toast.LENGTH_SHORT).show()
+        supportActionBar?.title = pokemonDetail.name
+        supportActionBar?.subtitle = pokemonDetail.id.toString()
+        Toast.makeText(this, "${pokemonDetail.types}", Toast.LENGTH_SHORT).show()
     }
 }
