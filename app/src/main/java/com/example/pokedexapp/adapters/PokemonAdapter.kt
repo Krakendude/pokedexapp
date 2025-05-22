@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.pokedexapp.data.Pokemon
+import com.example.pokedexapp.data.PokemonItem
 import com.example.pokedexapp.databinding.ItemPokemonBinding
 import com.squareup.picasso.Picasso
 
 class PokemonAdapter(
-    var items: List<Pokemon>,
+    var items: List<PokemonItem>,
     val onItemClick: (position: Int) -> Unit
 ): Adapter<PokemonViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
@@ -30,7 +30,7 @@ class PokemonAdapter(
         }
     }
 
-    fun updateItems(items: List<Pokemon>) {
+    fun updateItems(items: List<PokemonItem>) {
         this.items = items
         notifyDataSetChanged()
     }
@@ -38,7 +38,15 @@ class PokemonAdapter(
 
 class PokemonViewHolder(val binding: ItemPokemonBinding) : ViewHolder(binding.root) {
 
-    fun render (pokemon: Pokemon) {
-        binding.nameTextView.text = pokemon.name
+    fun render(pokemon: PokemonItem) {
+        binding.nameTextView.text = pokemon.name.replaceFirstChar { it.uppercase() }
+
+        // Extraer el ID desde la URL
+        val id = pokemon.url.split("/").filter { it.isNotEmpty() }.last()
+
+        val imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png"
+
+        // Cargar imagen con Picasso
+        Picasso.get().load(imageUrl).into(binding.spriteImageView)
     }
 }

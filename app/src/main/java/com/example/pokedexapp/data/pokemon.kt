@@ -1,12 +1,57 @@
 package com.example.pokedexapp.data
 
-import com.google.gson.annotations.SerializedName
+import com.google.gson.TypeAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
 
-data class pokemonSearchResponse(
-    val results: List<Pokemon>
+
+data class pokemonResponse(
+    val results: List<PokemonItem>,
+    val name: String
 )
 
-data class Pokemon(
+data class PokemonItem(
     val name: String,
     val url: String
+)
+
+data class PokemonDetail(
+    val id: Int,
+    val name: String,
+    val stats: List<StatEntry>,
+    val types: List<TypeEntry>,
+    val abilities: List<AbilityEntry>
+) {
+    fun sprite(): String {
+        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png"
+    }
+}
+
+data class Image(
+    val url: String
+)
+
+data class StatEntry(
+    val base_stat: Int,
+    val stat: Stat
+)
+
+data class Stat(
+    val name: String
+)
+
+data class TypeEntry(
+    val type: Type
+)
+
+data class Type(
+    val name: String
+)
+
+data class AbilityEntry(
+    val ability: Ability
+)
+
+data class Ability(
+    val name: String
 )
