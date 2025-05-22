@@ -11,9 +11,11 @@ import com.example.pokedexapp.R
 import com.example.pokedexapp.data.PokemonDetail
 import com.example.pokedexapp.databinding.ActivityDetailBinding
 import com.example.pokedexapp.utils.pokeservice
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class DetailActivity : AppCompatActivity() {
 
@@ -64,6 +66,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun loadData(){
-        Toast.makeText(this, "{${pokemonDetail.name}}", Toast.LENGTH_SHORT).show()
+        supportActionBar?.title = pokemonDetail.name.replaceFirstChar { if (it. isLowerCase()) it. titlecase(Locale. getDefault()) else it. toString() }
+        supportActionBar?.subtitle = "Pokedex id: ${pokemonDetail.id}"
+        Toast.makeText(this, "${pokemonDetail.types}", Toast.LENGTH_SHORT).show()
+        Picasso.get().load(pokemonDetail.sprite()).into(binding.avatarImageView)
     }
 }

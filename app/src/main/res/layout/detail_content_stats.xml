@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- HP -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="HP"/>
+
+        <TextView
+            android:id="@+id/hpTextView"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textStyle="bold"
+            android:text="100"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/hpProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:progress="30"
+            android:layout_gravity="center_vertical"
+            android:max="255"/>
+
+    </LinearLayout>
+
+    <!-- Attack -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Attack"/>
+
+        <TextView
+            android:id="@+id/attackTextView"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textStyle="bold"
+            android:text="100"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/attackProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:progress="30"
+            android:layout_gravity="center_vertical"
+            android:max="255"/>
+
+    </LinearLayout>
+
+    <!-- Defense -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Defense"/>
+
+        <TextView
+            android:id="@+id/defenseTextView"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textStyle="bold"
+            android:text="100"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/defenseProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:progress="30"
+            android:layout_gravity="center_vertical"
+            android:max="255"/>
+
+    </LinearLayout>
+
+    <!-- Special attack -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Special attack"/>
+
+        <TextView
+            android:id="@+id/specialAttackTextView"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textStyle="bold"
+            android:text="100"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/specialAttackProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:progress="30"
+            android:layout_gravity="center_vertical"
+            android:max="255"/>
+
+    </LinearLayout>
+
+    <!-- Special defense -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Special defense"/>
+
+        <TextView
+            android:id="@+id/specialDefenseTextView"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textStyle="bold"
+            android:text="100"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/specialDefenseProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:progress="30"
+            android:layout_gravity="center_vertical"
+            android:max="255"/>
+
+    </LinearLayout>
+
+    <!-- Speed -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Speed"/>
+
+        <TextView
+            android:id="@+id/speedTextView"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textStyle="bold"
+            android:text="100"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/speedProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:progress="30"
+            android:layout_gravity="center_vertical"
+            android:max="255"/>
+
+    </LinearLayout>
+
+</LinearLayout>
