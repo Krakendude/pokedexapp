@@ -1,6 +1,7 @@
 package com.example.pokedexapp.data
 
 import com.google.gson.TypeAdapter
+import com.google.gson.annotations.SerializedName
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 
@@ -20,7 +21,9 @@ data class PokemonDetail(
     val name: String,
     val stats: List<StatEntry>,
     val types: List<TypeEntry>,
-    val abilities: List<AbilityEntry>
+    val abilities: List<AbilityEntry>,
+    val height: Int,
+    val weight: Int
 ) {
     fun sprite(): String {
         return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png"
@@ -32,7 +35,7 @@ data class Image(
 )
 
 data class StatEntry(
-    val base_stat: Int,
+    @SerializedName("base_stat") val baseStat: Int,
     val stat: Stat
 )
 

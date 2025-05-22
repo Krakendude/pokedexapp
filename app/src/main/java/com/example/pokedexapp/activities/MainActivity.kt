@@ -46,8 +46,7 @@ class MainActivity : AppCompatActivity() {
         adapter = PokemonAdapter(pokemonListFiltered) { position ->
             val pokemon = pokemonListFiltered[position]
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("name", pokemon.name)
-            intent.putExtra("url", pokemon.url)
+            intent.putExtra(DetailActivity.POKEMON_NAME, pokemon.name)
             startActivity(intent)
         }
 
@@ -64,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val response = pokeservice.getInstance().getPokemonList()
             pokemonList = response.results
+            pokemonListFiltered = pokemonList
             adapter.updateItems(pokemonList)
         }
     }
