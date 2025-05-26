@@ -2,6 +2,8 @@ package com.example.pokedexapp.activities
 
 import android.health.connect.datatypes.units.Length
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Locale
+import kotlin.reflect.typeOf
 
 class DetailActivity : AppCompatActivity() {
 
@@ -26,6 +29,7 @@ class DetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailBinding
 
     lateinit var pokemonDetail: PokemonDetail
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +49,29 @@ class DetailActivity : AppCompatActivity() {
 
         getPokemonByName(name)
 
+        binding.navigationView.setOnItemSelectedListener { menuItem ->
+            binding.contentBasicInfo.root.visibility = View.GONE
+            binding.contentStats.root.visibility = View.GONE
+
+            when (menuItem.itemId) {
+                R.id.menu_basic_info -> binding.contentBasicInfo.root.visibility = View.VISIBLE
+                R.id.menu_stats -> binding.contentStats.root.visibility = View.VISIBLE
+            }
+            true
+        }
+
+        binding.navigationView.selectedItemId = R.id.menu_basic_info
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     fun getPokemonByName(name: String) {
@@ -65,10 +92,61 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    fun loadData(){
-        supportActionBar?.title = pokemonDetail.name.replaceFirstChar { if (it. isLowerCase()) it. titlecase(Locale. getDefault()) else it. toString() }
+    fun loadData() {
+        supportActionBar?.title =
+            pokemonDetail.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         supportActionBar?.subtitle = "Pokedex id: ${pokemonDetail.id}"
-        Toast.makeText(this, "${pokemonDetail.types}", Toast.LENGTH_SHORT).show()
         Picasso.get().load(pokemonDetail.sprite()).into(binding.avatarImageView)
+
+        //basic info
+        binding.contentBasicInfo.nameTextView.text = pokemonDetail.name
+        binding.contentBasicInfo.pokedexIDView.text = pokemonDetail.id.toString()
+        binding.contentBasicInfo.heightTextView.text = pokemonDetail.height.toString()
+        binding.contentBasicInfo.weightTextView.text = pokemonDetail.weight.toString()
+        binding.contentBasicInfo.typesTextView.text = pokemonDetail.types.toString()
+
+        //listas en basic info
+        val typeNames = pokemonDetail.types.map {
+            it.type.name.replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(
+                    Locale.ROOT
+                ) else it.toString()
+            }
+        }
+        binding.contentBasicInfo.typesTextView.text = typeNames.joinToString(", ")
+
+        val abilitiesNames = pokemonDetail.abilities.map {
+            it.ability.name.replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(
+                    Locale.ROOT
+                ) else it.toString()
+            }
+        }
+        binding.contentBasicInfo.abilityTextView.text = abilitiesNames.joinToString(", ")
+
+
+        // stats
+        pokemonDetail.stats.forEach { statEntry ->
+            val statName = statEntry.stat.name.lowercase()
+            val value = statEntry.baseStat
+
+            when (statName) {
+                "hp" -> binding.contentStats.hpProgress.progress = value
+                "attack" -> binding.contentStats.attackProgress.progress = value
+                "defense" -> binding.contentStats.defenseProgress.progress = value
+                "speed" -> binding.contentStats.speedProgress.progress = value
+                "special-attack" -> binding.contentStats.specialAttackProgress.progress = value
+                "special-defense" -> binding.contentStats.specialDefenseProgress.progress = value
+            }
+
+            when (statName) {
+                "hp" -> binding.contentStats.hpTextView.text = value.toString()
+                "attack" -> binding.contentStats.attackTextView.text = value.toString()
+                "defense" -> binding.contentStats.defenseTextView.text = value.toString()
+                "special-attack" -> binding.contentStats.specialAttackTextView.text = value.toString()
+                "special-defense" -> binding.contentStats.specialDefenseTextView.text = value.toString()
+                "speed" -> binding.contentStats.speedTextView.text = value.toString()
+            }
+        }
     }
 }

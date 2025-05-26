@@ -28,7 +28,12 @@ data class PokemonDetail(
     fun sprite(): String {
         return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png"
     }
+
+    fun cry(): String {
+        return "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/$id.ogg"
+    }
 }
+
 
 data class Image(
     val url: String

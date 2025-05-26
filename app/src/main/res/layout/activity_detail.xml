@@ -40,6 +40,21 @@
                 android:layout_height="wrap_content"
                 app:menu="@menu/activity_detail_navigation"/>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <include
+                    android:id="@+id/contentBasicInfo"
+                    layout="@layout/detail_content_basic_info"/>
+
+                <include
+                    android:id="@+id/contentStats"
+                    layout="@layout/detail_content_stats"/>
+
+            </FrameLayout>
+
 
         </LinearLayout>
 
