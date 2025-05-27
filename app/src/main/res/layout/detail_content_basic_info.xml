@@ -147,10 +147,14 @@
 
     <Button
         android:id="@+id/crybutton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="90dp"
         android:src="@drawable/ic_audio_button"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitCenter"
+        android:text="Play cry (੭˙Ⱉ˙)੭"
+        android:textStyle="bold"
+        android:drawableRight="@drawable/ic_audio_button"
+        android:drawableTint="@color/white"/>
 
 </LinearLayout>
