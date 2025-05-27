@@ -3,6 +3,7 @@ package com.example.pokedexapp.activities
 import android.health.connect.datatypes.units.Length
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -19,6 +20,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import kotlin.reflect.typeOf
 
@@ -32,7 +34,9 @@ class DetailActivity : AppCompatActivity() {
 
     lateinit var pokemonDetail: PokemonDetail
 
+
     lateinit var speciesResponse: SpeciesResponse
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,12 +100,14 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+
+
     fun loadData() {
-        val genus = speciesResponse.genera.firstOrNull { it.language.name == "en" }?.genus
         supportActionBar?.title =
             pokemonDetail.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-        supportActionBar?.subtitle = genus
+        loadSpeciesSubtitle(pokemonDetail.name)
         Picasso.get().load(pokemonDetail.sprite()).into(binding.avatarImageView)
+
 
         //basic info
         binding.contentBasicInfo.nameTextView.text = pokemonDetail.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
@@ -166,6 +172,29 @@ class DetailActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(this, "No se pudo reproducir el grito", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+    fun loadSpeciesSubtitle(pokemonName: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = pokeservice.getInstance().getPokemonSpecies(pokemonName)
+
+                if (response.isSuccessful) {
+                    val genus = response.body()
+                        ?.genera
+                        ?.firstOrNull { it.language.name == "en" }
+                        ?.genus
+
+                    withContext(Dispatchers.Main) {
+                        supportActionBar?.subtitle = genus
+                    }
+                } else {
+                    Log.e("SpeciesAPI", "Error: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("SpeciesAPI", "Exception: ${e.message}")
             }
         }
     }

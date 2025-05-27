@@ -46,7 +46,7 @@ class PokemonViewHolder(val binding: ItemPokemonBinding) : ViewHolder(binding.ro
 
         binding.idTextView.text = "Pokemon id: ${id}"
 
-        val imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png"
+        val imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png"
 
         // Cargar imagen con Picasso
         Picasso.get().load(imageUrl).into(binding.spriteImageView)

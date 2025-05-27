@@ -3,6 +3,7 @@ package com.example.pokedexapp.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -10,14 +11,13 @@ import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokedexapp.R
 import com.example.pokedexapp.adapters.PokemonAdapter
 import com.example.pokedexapp.data.PokemonItem
 import com.example.pokedexapp.databinding.ActivityMainBinding
 import com.example.pokedexapp.utils.pokeservice
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -51,8 +51,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         loadPokemonList()
 
