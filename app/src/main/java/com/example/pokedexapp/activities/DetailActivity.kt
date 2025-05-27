@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.pokedexapp.R
 import com.example.pokedexapp.data.PokemonDetail
+import com.example.pokedexapp.data.SpeciesResponse
 import com.example.pokedexapp.databinding.ActivityDetailBinding
 import com.example.pokedexapp.utils.pokeservice
 import com.squareup.picasso.Picasso
@@ -30,6 +31,8 @@ class DetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailBinding
 
     lateinit var pokemonDetail: PokemonDetail
+
+    lateinit var speciesResponse: SpeciesResponse
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,9 +97,10 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun loadData() {
+        val genus = speciesResponse.genera.firstOrNull { it.language.name == "en" }?.genus
         supportActionBar?.title =
             pokemonDetail.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-        supportActionBar?.subtitle = "Pokedex id: ${pokemonDetail.id}"
+        supportActionBar?.subtitle = genus
         Picasso.get().load(pokemonDetail.sprite()).into(binding.avatarImageView)
 
         //basic info

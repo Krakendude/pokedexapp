@@ -2,6 +2,7 @@ package com.example.pokedexapp.utils
 
 import com.example.pokedexapp.data.PokemonDetail
 import com.example.pokedexapp.data.PokemonItem
+import com.example.pokedexapp.data.SpeciesResponse
 import com.example.pokedexapp.data.pokemonResponse
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -23,6 +24,9 @@ interface pokeservice {
 
     @GET("pokemon/{name}")
     suspend fun getPokemonByName(@Path("name") name: String): PokemonDetail
+
+    @GET("pokemon-species/{name}")
+    suspend fun getPokemonSpecies(@Path("name") name: String): Response<SpeciesResponse>
 
     companion object {
         fun getInstance(): pokeservice {

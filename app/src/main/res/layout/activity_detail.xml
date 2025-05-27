@@ -7,11 +7,16 @@
     tools:context=".activities.DetailActivity">
 
     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        android:src="@drawable/img_background3"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
         android:id="@+id/avatarImageView"
         android:layout_width="match_parent"
         android:layout_height="480dp"
         android:scaleType="fitCenter"
-        android:background="@drawable/ic_launcher_foreground"
         tools:src="@drawable/ic_launcher_background"
         android:layout_gravity="center"
         app:layout_constraintTop_toTopOf="parent"

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 
-
+// pokemon
 data class pokemonResponse(
     val results: List<PokemonItem>,
     val name: String
@@ -61,5 +61,20 @@ data class AbilityEntry(
 )
 
 data class Ability(
+    val name: String
+)
+
+// species
+
+data class SpeciesResponse(
+    val genera: List<GenusEntry>
+)
+
+data class GenusEntry(
+    val genus: String,
+    val language: LanguageEntry
+)
+
+data class LanguageEntry(
     val name: String
 )
