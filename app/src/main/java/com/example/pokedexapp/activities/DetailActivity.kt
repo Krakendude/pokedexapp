@@ -100,7 +100,7 @@ class DetailActivity : AppCompatActivity() {
         Picasso.get().load(pokemonDetail.sprite()).into(binding.avatarImageView)
 
         //basic info
-        binding.contentBasicInfo.nameTextView.text = pokemonDetail.name
+        binding.contentBasicInfo.nameTextView.text = pokemonDetail.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         binding.contentBasicInfo.pokedexIDView.text = pokemonDetail.id.toString()
         binding.contentBasicInfo.heightTextView.text = pokemonDetail.height.toString()
         binding.contentBasicInfo.weightTextView.text = pokemonDetail.weight.toString()

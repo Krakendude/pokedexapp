@@ -26,7 +26,7 @@ data class PokemonDetail(
     val weight: Int
 ) {
     fun sprite(): String {
-        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png"
+        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png"
     }
 
     fun cry(): String {
