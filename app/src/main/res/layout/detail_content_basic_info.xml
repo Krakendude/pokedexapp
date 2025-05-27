@@ -145,4 +145,12 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/crybutton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="90dp"
+        android:src="@drawable/ic_audio_button"
+        android:scaleType="fitCenter"/>
+
 </LinearLayout>

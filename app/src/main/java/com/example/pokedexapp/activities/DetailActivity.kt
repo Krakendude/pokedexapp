@@ -1,6 +1,7 @@
 package com.example.pokedexapp.activities
 
 import android.health.connect.datatypes.units.Length
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -146,6 +147,21 @@ class DetailActivity : AppCompatActivity() {
                 "special-attack" -> binding.contentStats.specialAttackTextView.text = value.toString()
                 "special-defense" -> binding.contentStats.specialDefenseTextView.text = value.toString()
                 "speed" -> binding.contentStats.speedTextView.text = value.toString()
+            }
+        }
+        binding.contentBasicInfo.crybutton.setOnClickListener {
+            val cryUrl = "https://play.pokemonshowdown.com/audio/cries/${pokemonDetail.name.lowercase()}.ogg"
+            val mediaPlayer = MediaPlayer()
+
+            try {
+                mediaPlayer.setDataSource(cryUrl)
+                mediaPlayer.setOnPreparedListener {
+                    it.start()
+                }
+                mediaPlayer.prepareAsync()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this, "No se pudo reproducir el grito", Toast.LENGTH_SHORT).show()
             }
         }
     }
