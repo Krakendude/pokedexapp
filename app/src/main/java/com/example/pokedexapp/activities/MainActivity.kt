@@ -1,8 +1,11 @@
 package com.example.pokedexapp.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokedexapp.R
 import com.example.pokedexapp.adapters.PokemonAdapter
 import com.example.pokedexapp.data.PokemonItem
+import com.example.pokedexapp.data.pokemonResponse
 import com.example.pokedexapp.databinding.ActivityMainBinding
 import com.example.pokedexapp.utils.pokeservice
 import kotlinx.coroutines.launch
@@ -26,6 +30,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     lateinit var adapter: PokemonAdapter
+
+    lateinit var sharedPreferences: SharedPreferences
+
+    lateinit var context: Context
 
     var pokemonList: List<PokemonItem> = emptyList()
     var pokemonListFiltered: List<PokemonItem> = emptyList()
@@ -43,10 +51,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        adapter = PokemonAdapter(pokemonListFiltered) { position ->
+        adapter = PokemonAdapter(this, pokemonListFiltered) { position ->
             val pokemon = pokemonListFiltered[position]
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra(DetailActivity.POKEMON_NAME, pokemon.name)
+            intent.putExtra(FavoritesActivity.POKEMON_NAME, pokemon.name)
             startActivity(intent)
         }
 
@@ -91,6 +100,16 @@ class MainActivity : AppCompatActivity() {
     fun searchPokemon(query: String) {
         pokemonListFiltered = pokemonList.filter { it.name.contains(query, true) }
         adapter.updateItems(pokemonListFiltered)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_favorites -> {
+                startActivity(Intent(this, FavoritesActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
 
