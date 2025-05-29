@@ -124,6 +124,20 @@ data class MoveDetail(
     val power: Int?,
     val accuracy: Int?,
     val pp: Int?,
-    val type: NamedAPIResource,
-    @SerializedName("damage_class") val damage_class: NamedAPIResource
+    val type: NamedAPIResource2,
+    @SerializedName("damage_class") val damageClass: NamedAPIResource2,
+    val meta: MoveMeta?
+)
+
+data class MoveMeta(
+    val ailment: NamedAPIResource2
+)
+
+data class MoveSlot(
+    val move: NamedAPIResource2
+)
+
+data class NamedAPIResource2(
+    val name: String,
+    val url: String
 )

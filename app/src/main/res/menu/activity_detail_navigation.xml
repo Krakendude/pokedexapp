@@ -13,4 +13,10 @@
         android:title="Stats"
         android:icon="@drawable/ic_stats"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_moves"
+        android:title="moves"
+        android:icon="@drawable/ic_moves"
+        app:showAsAction="always"/>
 </menu>
