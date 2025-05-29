@@ -8,14 +8,22 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.pokedexapp.R
+import com.example.pokedexapp.data.PokemonDetail
 import com.example.pokedexapp.data.PokemonItem
 import com.example.pokedexapp.databinding.ItemPokemonBinding
+import com.example.pokedexapp.utils.pokeservice
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Locale
 
 class PokemonAdapter(
     private val context: Context,
     var items: List<PokemonItem>,
-    val onItemClick: (position: Int) -> Unit
+    val onItemClick: (position: Int) -> Unit,
+
 
 
 ): Adapter<PokemonViewHolder>() {
@@ -44,6 +52,7 @@ class PokemonViewHolder(val binding: ItemPokemonBinding) : ViewHolder(binding.ro
 
     fun render(pokemon: PokemonItem, context: Context, onItemClick: (position: Int) -> Unit) {
         val id = pokemon.url.split("/").filter {  it.isNotEmpty() }.last()
+
         fun updateFavoriteIcon() {
             val sharedPrefs = context.getSharedPreferences("favorites", Context.MODE_PRIVATE)
             val favorites = sharedPrefs.getStringSet("favorite_pokemons", setOf())?.toMutableSet() ?: mutableSetOf()
@@ -52,6 +61,27 @@ class PokemonViewHolder(val binding: ItemPokemonBinding) : ViewHolder(binding.ro
             binding.favoriteButtonMain.setImageResource(
                 if (isfavorite) R.drawable.ic_favorite_selected else R.drawable.ic_not_favorite
             )
+        }
+
+        //cambiar el color del fondo segun el tipo
+        CoroutineScope(Dispatchers.IO).launch {
+            val details = pokeservice.getInstance().getPokemonByName(pokemon.name)
+            val mainType = details.types.firstOrNull()?.type?.name ?: "normal"
+
+            withContext(Dispatchers.Main) {
+                val resourceId = context.resources.getIdentifier(
+                    "gradient_$mainType", // nombre del drawable sin extensión
+                    "drawable",
+                    context.packageName
+                )
+
+                if (resourceId != 0) {
+                    binding.backgroundImageView.setImageResource(resourceId)
+                } else {
+                    // Recurso no encontrado, tal vez mostrar uno por defecto
+                    binding.backgroundImageView.setImageResource(R.drawable.gradient_normal)
+                }
+            }
         }
 
         updateFavoriteIcon()
@@ -94,5 +124,6 @@ class PokemonViewHolder(val binding: ItemPokemonBinding) : ViewHolder(binding.ro
 
         // Cargar imagen con Picasso
         Picasso.get().load(imageUrl).into(binding.spriteImageView)
-    }
+
+        }
 }
