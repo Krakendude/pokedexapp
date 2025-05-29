@@ -74,7 +74,8 @@ data class Ability(
 // species
 
 data class SpeciesResponse(
-    val genera: List<GenusEntry>
+    val genera: List<GenusEntry>,
+    @SerializedName("evolution_chain") val evolutionChain: EvolutionChainInfo
 )
 
 data class GenusEntry(
@@ -84,4 +85,45 @@ data class GenusEntry(
 
 data class LanguageEntry(
     val name: String
+)
+
+data class EvolutionChainInfo(
+    val url: String
+)
+
+
+
+// evoluciones
+
+data class EvolutionChainResponse(
+    val chain: ChainLink
+)
+
+data class ChainLink(
+    val species: NamedAPIResource,
+    val evolves_to: List<ChainLink>,
+    val evolution_details: List<EvolutionDetail>
+)
+
+data class NamedAPIResource(
+    val name: String,
+    val url: String
+)
+
+data class EvolutionDetail(
+    val min_level: Int?,
+    val trigger: NamedAPIResource?,
+    val item: NamedAPIResource?
+)
+
+
+// movimientos
+
+data class MoveDetail(
+    val name: String,
+    val power: Int?,
+    val accuracy: Int?,
+    val pp: Int?,
+    val type: NamedAPIResource,
+    @SerializedName("damage_class") val damage_class: NamedAPIResource
 )

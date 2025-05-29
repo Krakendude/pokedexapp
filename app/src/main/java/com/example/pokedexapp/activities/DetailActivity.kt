@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.pokedexapp.R
+import com.example.pokedexapp.data.ChainLink
 import com.example.pokedexapp.data.PokemonDetail
 import com.example.pokedexapp.data.SpeciesResponse
 import com.example.pokedexapp.databinding.ActivityDetailBinding
@@ -19,6 +21,7 @@ import com.example.pokedexapp.utils.pokeservice
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -114,17 +117,18 @@ class DetailActivity : AppCompatActivity() {
         binding.contentBasicInfo.pokedexIDView.text = pokemonDetail.id.toString()
         binding.contentBasicInfo.heightTextView.text = pokemonDetail.height.toString()
         binding.contentBasicInfo.weightTextView.text = pokemonDetail.weight.toString()
-        binding.contentBasicInfo.typesTextView.text = pokemonDetail.types.toString()
 
         //listas en basic info
         val typeNames = pokemonDetail.types.map {
-            it.type.name.replaceFirstChar {
-                if (it.isLowerCase()) it.titlecase(
-                    Locale.ROOT
-                ) else it.toString()
-            }
+            it.type.name
         }
-        binding.contentBasicInfo.typesTextView.text = typeNames.joinToString(", ")
+
+        val typeImageViews = listOf(
+            binding.contentBasicInfo.firstTypeImageView,
+            binding.contentBasicInfo.secondTypeImageView
+        )
+
+        showTypeIcons(typeNames, typeImageViews)
 
         val abilitiesNames = pokemonDetail.abilities.map {
             it.ability.name.replaceFirstChar {
@@ -174,7 +178,8 @@ class DetailActivity : AppCompatActivity() {
                 Toast.makeText(this, "No se pudo reproducir el grito", Toast.LENGTH_SHORT).show()
             }
         }
-
+    // cargar evoluciones
+        binding.contentBasicInfo.evolutionTextView.text = loadEvolutionChain(pokemonDetail.name).toString()
     }
     fun loadSpeciesSubtitle(pokemonName: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -196,6 +201,57 @@ class DetailActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Log.e("SpeciesAPI", "Exception: ${e.message}")
             }
+        }
+    }
+    fun showTypeIcons(typeNames: List<String>, typeImageViews: List<ImageView>) {
+        for (i in typeImageViews.indices) {
+            if (i < typeNames.size) {
+                val typeName = typeNames[i].lowercase()
+                val resourceId = resources.getIdentifier("img_$typeName", "drawable", packageName)
+
+                if (resourceId != 0) {
+                    typeImageViews[i].setImageResource(resourceId)
+                    typeImageViews[i].visibility = View.VISIBLE
+                } else {
+                    typeImageViews[i].setImageResource(R.drawable.img_normal)
+                    typeImageViews[i].visibility = View.VISIBLE
+                }
+            } else {
+                typeImageViews[i].visibility = View.GONE
+            }
+        }
+    }
+
+    fun loadEvolutionChain(pokemonName: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val speciesResponse = pokeservice.getInstance().getPokemonSpecies(pokemonName)
+                val evolutionUrl = speciesResponse.body()?.evolutionChain?.url
+
+                val evolutionId = evolutionUrl?.split("/")?.filter { it.isNotEmpty() }?.last()?.toIntOrNull()
+                if (evolutionId != null) {
+                    val evolutionResponse = pokeservice.getInstance().getEvolutionChain(evolutionId)
+                    val chain = evolutionResponse.body()?.chain
+
+                    val evolutionList = mutableListOf<String>()
+                    parseEvolutionChain(chain, evolutionList)
+
+                    withContext(Dispatchers.Main) {
+                        // Muestra los nombres en content_basic_info (puedes hacerlo más bonito luego)
+                        binding.contentBasicInfo.evolutionTextView.text = evolutionList.joinToString(" → ") { it.replaceFirstChar { c -> c.uppercase() } }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun parseEvolutionChain(chain: ChainLink?, evolutionList: MutableList<String>) {
+        if (chain == null) return
+        evolutionList.add(chain.species.name)
+        if (chain.evolves_to.isNotEmpty()) {
+            parseEvolutionChain(chain.evolves_to.first(), evolutionList)
         }
     }
 }

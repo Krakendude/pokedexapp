@@ -1,5 +1,7 @@
 package com.example.pokedexapp.utils
 
+import com.example.pokedexapp.data.EvolutionChainResponse
+import com.example.pokedexapp.data.MoveDetail
 import com.example.pokedexapp.data.PokemonDetail
 import com.example.pokedexapp.data.PokemonItem
 import com.example.pokedexapp.data.SpeciesResponse
@@ -14,11 +16,6 @@ interface pokeservice {
     @GET("pokemon?limit=100000&offset=0")
     suspend fun getPokemonList(): pokemonResponse
 
-
-    @GET("pokemon/{name}")
-    suspend fun searchPokemonByName(@Path("name") name: String): pokemonResponse
-
-
     @GET("pokemon/{id}")
     suspend fun getPokemonById(@Path("id") id: Int): PokemonDetail
 
@@ -27,6 +24,12 @@ interface pokeservice {
 
     @GET("pokemon-species/{name}")
     suspend fun getPokemonSpecies(@Path("name") name: String): Response<SpeciesResponse>
+
+    @GET("evolution-chain/{id}")
+    suspend fun getEvolutionChain(@Path("id") id: Int): Response<EvolutionChainResponse>
+
+    @GET("move/{name}")
+    suspend fun getMove(@Path("name") moveName: String): MoveDetail
 
     companion object {
         fun getInstance(): pokeservice {

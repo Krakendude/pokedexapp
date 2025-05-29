@@ -101,23 +101,54 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="132.2dp"
+            android:layout_height="wrap_content"
+            android:text="Type(s):"
+            android:textAlignment="textEnd"/>
+
+        <ImageView
+            android:id="@+id/firstTypeImageView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@null"
+            android:padding="2.5dp"/>
+
+        <ImageView
+            android:id="@+id/secondTypeImageView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@null"
+            android:padding="2.5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/evolutionChainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="types:"
+            android:text="Evolution chain:"
             android:textAlignment="textEnd"/>
 
         <TextView
-            android:id="@+id/typesTextView"
+            android:id="@+id/evolutionTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:layout_marginStart="4dp"
-            tools:text="yes"
+            tools:text="into ugly"
             android:textStyle="bold"/>
 
     </LinearLayout>
