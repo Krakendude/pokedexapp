@@ -32,6 +32,13 @@ data class PokemonDetail(
     fun cry(): String {
         return "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/$id.ogg"
     }
+
+    companion object {
+        val types: Type
+            get() {
+                TODO()
+            }
+    }
 }
 
 
