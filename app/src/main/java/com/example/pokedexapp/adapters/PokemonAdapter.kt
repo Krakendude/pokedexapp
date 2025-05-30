@@ -174,4 +174,6 @@ class PokemonViewHolder(val binding: ItemPokemonBinding) : ViewHolder(binding.ro
             }
         }
     }
+
+
 }

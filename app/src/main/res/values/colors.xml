@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="favorite_gold">#F4DB05</color>
+
+    <color name="pokeball_red">#ee1515</color>
 </resources>
