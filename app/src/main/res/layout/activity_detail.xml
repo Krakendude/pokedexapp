@@ -59,6 +59,10 @@
                     android:id="@+id/contentStats"
                     layout="@layout/detail_content_stats"/>
 
+                <include
+                    android:id="@+id/contentMoves"
+                    layout="@layout/detail_content_moves"/>
+
             </FrameLayout>
 
 

@@ -1,5 +1,6 @@
 package com.example.pokedexapp.activities
 
+import android.content.Context
 import android.health.connect.datatypes.units.Length
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -12,8 +13,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokedexapp.R
+import com.example.pokedexapp.adapters.MoveAdapter
 import com.example.pokedexapp.data.ChainLink
+import com.example.pokedexapp.data.MoveDetail
+import com.example.pokedexapp.data.MoveSlot
 import com.example.pokedexapp.data.PokemonDetail
 import com.example.pokedexapp.data.SpeciesResponse
 import com.example.pokedexapp.databinding.ActivityDetailBinding
@@ -63,10 +68,12 @@ class DetailActivity : AppCompatActivity() {
         binding.navigationView.setOnItemSelectedListener { menuItem ->
             binding.contentBasicInfo.root.visibility = View.GONE
             binding.contentStats.root.visibility = View.GONE
+            binding.contentMoves.root.visibility = View.GONE
 
             when (menuItem.itemId) {
                 R.id.menu_basic_info -> binding.contentBasicInfo.root.visibility = View.VISIBLE
                 R.id.menu_stats -> binding.contentStats.root.visibility = View.VISIBLE
+                R.id.menu_moves -> binding.contentMoves.root.visibility = View.VISIBLE
             }
             true
         }
@@ -95,7 +102,7 @@ class DetailActivity : AppCompatActivity() {
 
                 // Volvemos al hilo principal
                 CoroutineScope(Dispatchers.Main).launch {
-                    loadData()
+                    loadData(pokemonName = String.toString())
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -105,7 +112,7 @@ class DetailActivity : AppCompatActivity() {
 
 
 
-    fun loadData() {
+    fun loadData(pokemonName: String) {
         supportActionBar?.title =
             pokemonDetail.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         loadSpeciesSubtitle(pokemonDetail.name)
@@ -180,6 +187,12 @@ class DetailActivity : AppCompatActivity() {
         }
     // cargar evoluciones
         binding.contentBasicInfo.evolutionTextView.text = loadEvolutionChain(pokemonDetail.name).toString()
+
+        // cargar movimientos
+        loadMoves(pokemonDetail.moves)
+
+
+
     }
     fun loadSpeciesSubtitle(pokemonName: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -254,4 +267,39 @@ class DetailActivity : AppCompatActivity() {
             parseEvolutionChain(chain.evolves_to.first(), evolutionList)
         }
     }
+
+    fun loadMoves(moveList: List<MoveSlot>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val detailedMoves = mutableListOf<MoveDetail>()
+                val service = pokeservice.getInstance()
+
+                for (move in moveList.take(249)) {
+                    val moveDetail = service.getMove(move.move.name)
+                    detailedMoves.add(moveDetail)
+                }
+
+                withContext(Dispatchers.Main) {
+                    val moveAdapter = MoveAdapter(this@DetailActivity, detailedMoves) { position ->
+                        val move = detailedMoves[position]
+                        Toast.makeText(
+                            this@DetailActivity,
+                            "Movimiento: ${move.name}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    binding.contentMoves.movesRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(this@DetailActivity)
+                        adapter = moveAdapter
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+
 }

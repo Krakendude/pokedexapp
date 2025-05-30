@@ -23,7 +23,8 @@ data class PokemonDetail(
     val types: List<TypeEntry>,
     val abilities: List<AbilityEntry>,
     val height: Int,
-    val weight: Int
+    val weight: Int,
+    val moves: List<MoveSlot>,
 ) {
     fun sprite(): String {
         return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png"

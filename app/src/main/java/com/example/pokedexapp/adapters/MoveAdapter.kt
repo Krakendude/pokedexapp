@@ -14,8 +14,8 @@ import com.example.pokedexapp.databinding.ItemPokemonBinding
 class MoveAdapter(
     private val context: Context,
     var moveList: List<MoveDetail>,
-    val onItemClick: (position: Int) -> Unit,
-    ): RecyclerView.Adapter<MoveAdapter.MoveViewHolder>() {
+    val onItemClick: (position: Int) -> Unit
+) : RecyclerView.Adapter<MoveAdapter.MoveViewHolder>() {
 
     class MoveViewHolder(val binding: ItemMoveBinding) : RecyclerView.ViewHolder(binding.root)
 
