@@ -1,8 +1,11 @@
 package com.example.pokedexapp.activities
 
 import android.content.Context
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.health.connect.datatypes.units.Length
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -11,6 +14,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -79,7 +83,8 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.navigationView.selectedItemId = R.id.menu_basic_info
-    }
+
+        }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -191,7 +196,14 @@ class DetailActivity : AppCompatActivity() {
         // cargar movimientos
         loadMoves(pokemonDetail.moves)
 
+        //cambiar el fondo segun el tipo
+        val mainType = typeNames.firstOrNull()?: "normal"
+        val bgResId = resources.getIdentifier("bg_$mainType", "drawable", packageName)
 
+        val backgroundImageView = findViewById<ImageView>(R.id.backgroundImageView)
+        if (bgResId != 0) {
+            backgroundImageView.setImageResource(bgResId)
+        }
 
     }
     fun loadSpeciesSubtitle(pokemonName: String) {
