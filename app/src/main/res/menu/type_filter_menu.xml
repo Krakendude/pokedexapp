@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:title="All" />
+        <item android:title="Fire" />
+        <item android:title="Water" />
+        <item android:title="Grass" />
+        <item android:title="Electric" />
+        <item android:title="Psychic" />
+        <item android:title="Rock" />
+        <item android:title="Ground" />
+        <item android:title="Fighting" />
+        <item android:title="Flying" />
+        <item android:title="Dragon" />
+        <item android:title="Fairy" />
+        <item android:title="Steel" />
+        <item android:title="Bug" />
+        <item android:title="Ghost" />
+        <item android:title="Poison" />
+        <item android:title="Dark" />
+        <item android:title="Ice" />
+
+
+</menu>

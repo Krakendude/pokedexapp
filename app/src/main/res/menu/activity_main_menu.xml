@@ -14,4 +14,10 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView"
         android:hint="What do you wish to search?"/>
+
+    <item
+        android:id="@+id/menu_filter_type"
+        android:title="Filter by Type"
+        android:icon="@drawable/ic_filter"
+        app:showAsAction="always" />
 </menu>

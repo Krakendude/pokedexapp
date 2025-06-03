@@ -176,7 +176,8 @@ class DetailActivity : AppCompatActivity() {
             }
         }
         binding.contentBasicInfo.crybutton.setOnClickListener {
-            val cryUrl = "https://play.pokemonshowdown.com/audio/cries/${pokemonDetail.name.lowercase()}.ogg"
+            val cryUrl = "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokemonDetail.name.lowercase()}.ogg"
+                //"https://play.pokemonshowdown.com/audio/cries/${pokemonDetail.name.lowercase()}.ogg"
             val mediaPlayer = MediaPlayer()
 
             try {
